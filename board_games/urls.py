@@ -15,4 +15,6 @@ urlpatterns = [
     path('new_board_game/', views.new_board_game, name='new_board_game'),
     # Page for edting a board game
     path('edit_board_game/<int:board_game_id>/', views.edit_board_game, name='edit_board_game'),
+    # User's own page, shows users board games
+    path('user_page/', views.user_page, name = 'user_page')
 ]

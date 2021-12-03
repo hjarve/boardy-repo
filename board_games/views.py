@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from .models import BoardGame
 from .forms import BoardGameForm
+from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
 def index(request):
     """The home page for Boardy"""
@@ -13,6 +15,18 @@ def board_games(request):
     context = {'board_games': board_games}
     return render(request, 'board_games/board_games.html', context)
 
+@login_required
+def user_page(request):
+    # User's own page, shows user's board games
+    board_game = BoardGame.objects.filter(owner=request.user).order_by('name')
+    # Make sure the user page belongs to the current user.
+    if board_game.owner != request.user:
+        raise Http404
+
+    context = {'board_games': board_games}
+    return render(request, 'board_games/user_page.html', context)
+
+@login_required
 def board_game(request, board_game_id):
     """Show the details of a specific board game and who has borrowed it."""
     board_game = BoardGame.objects.get(id = board_game_id)
@@ -20,6 +34,7 @@ def board_game(request, board_game_id):
     context = {'board_game': board_game, 'loans': loans}
     return render(request, 'board_games/board_game.html', context)
 
+@login_required
 def new_board_game(request):
     """Add a new board game"""
     if request.method != 'POST':
@@ -29,16 +44,22 @@ def new_board_game(request):
         # POST data submitted; process data.
         form = BoardGameForm(data = request.POST)
         if form.is_valid():
-            form.save()
+            new_board_game = form.save(commit=False)
+            new_board_game.owner = request.user
+            new_board_game.save()
             return redirect('board_games:user_page')
 
     #Display a blank or invalid form.
     context = {'form': form}
     return render(request, 'board_games/new_board_game.html', context)
 
+@login_required
 def edit_board_game(request, board_game_id):
     """Edit a board game."""
     board_game = BoardGame.objects.get(id = board_game_id)
+    # Make sure the board game belongs to the current user.
+    if board_game.owner != request.user:
+        raise Http404
 
     if request.method != 'POST':
         # Initial request; pre-fill form with the current data.
