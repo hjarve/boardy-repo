@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .models import BoardGame
+from .models import BoardGame, Loan
 from .forms import BoardGameForm
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
@@ -17,13 +17,14 @@ def board_games(request):
 
 @login_required
 def user_page(request):
-    # User's own page, shows user's board games
-    board_game = BoardGame.objects.filter(owner=request.user).order_by('name')
+    # User's own page; shows user's board games and the board games the user has borrowed
+    users_board_games = BoardGame.objects.filter(owner=request.user).order_by('name')
     # Make sure the user page belongs to the current user.
-    if board_game.owner != request.user:
+    if users_board_games.owner != request.user:
         raise Http404
 
-    context = {'board_games': board_games}
+    users_loans = Loan.objects.filter(borrower = request.user).order_by(-'date_added')
+    context = {'users_board_games': users_board_games, 'users_loans': users_loans}
     return render(request, 'board_games/user_page.html', context)
 
 @login_required
