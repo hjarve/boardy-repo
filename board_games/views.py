@@ -7,7 +7,7 @@ def index(request):
 
 def board_games(request):
     """Show all board games"""
-    # Board games sorted by the names
+    # Board games sorted by their names
     board_games = BoardGame.objects.order_by('name')
     context = {'board_games': board_games}
     return render(request, 'board_games/board_games.html', context)

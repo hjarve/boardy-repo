@@ -1,12 +1,13 @@
 from django.db import models
-from django.db.models.deletion import CASCADE
+from django.contrib.auth.models import User
 
 class BoardGame(models.Model):
     """A board game the user can lend."""
     name = models.CharField(max_length = 200)
     description = models.TextField()
     date_added = models.DateTimeField(auto_now_add = True)
-    # add later who owns the game
+    date_edited = models.DateTimeField(auto_now=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         """Return a string presentation of the model."""
@@ -14,10 +15,11 @@ class BoardGame(models.Model):
 
 class Loan(models.Model):
     """Data about who is borrowing a specific board game."""
-    board_game = models.ForeignKey(BoardGame, on_delete=CASCADE)
+    board_game = models.ForeignKey(BoardGame, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    # Add later who borrowed the game
-    # Boolean value "borrowed"?
+    date_edited = models.DateTimeField(auto_now=True)
+    borrower = models.ForeignKey(User, on_delete=models.CASCADE)
+    borrow = models.BooleanField()
 
     def __str__(self):
         """Return a string presentation of the board game loan."""
