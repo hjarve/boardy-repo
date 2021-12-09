@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Boardy - For all your board game borrowing needs!</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <header>
+        <h1><a href="{% url 'board_games:index' %}">Boardy</a></h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'board_games:all_games' %}">View the games</a>
+            {% if user.is_authenticated %}
+            <li><p>Logged in as {{ user.username }}</p></li>
+            <li><a href="{% url 'board_games:user_page' %}">Your profile</a></li>
+            <li><a href="{% url 'users:logout' %}">Log out</a></li>
+            {% else %}
+            <li><a href="{% url 'users:register' %}">Register</a></li>
+            <li><a href="{% url 'users:login' %}">Log in</a></li></li>
+            {% endif %}
+        </ul>
+
+    </nav>
+
+
+    {% block content %}{% endblock content %}
+    <script src="" async defer></script>
+</body>
+
+</html>

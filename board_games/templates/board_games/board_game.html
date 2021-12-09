@@ -1,0 +1,13 @@
+{% extends "board_games/base.html" %}
+
+{% block content %}
+
+    <h1>{{ board_game.owner }}'s {{ board_game }}</h1>
+
+    {{ boardgame.date_added }}
+
+    <p>
+        <a href="{% url 'board_games:edit_board_game' board_game.id %}">Edit</a>
+    </p>
+
+{% endblock content %}

@@ -8,29 +8,25 @@ def index(request):
     """The home page for Boardy"""
     return render(request, 'board_games/index.html')
 
-def board_games(request):
+def all_games(request):
     """Show all board games"""
     # Board games sorted by their names
-    board_games = BoardGame.objects.order_by('name')
-    context = {'board_games': board_games}
-    return render(request, 'board_games/board_games.html', context)
+    games = BoardGame.objects.all()
+    context = {'games': games}
+    return render(request, 'board_games/all_games.html', context)
 
 @login_required
 def user_page(request):
     # User's own page; shows user's board games and the board games the user has borrowed
     users_board_games = BoardGame.objects.filter(owner=request.user).order_by('name')
-    # Make sure the user page belongs to the current user.
-    if users_board_games.owner != request.user:
-        raise Http404
-
-    users_loans = Loan.objects.filter(borrower = request.user).order_by(-'date_added')
+    users_loans = Loan.objects.filter(borrower = request.user).order_by('-date_added')
     context = {'users_board_games': users_board_games, 'users_loans': users_loans}
     return render(request, 'board_games/user_page.html', context)
 
 @login_required
 def board_game(request, board_game_id):
     """Show the details of a specific board game and who has borrowed it."""
-    board_game = BoardGame.objects.get(id = board_game_id)
+    board_game = BoardGame.objects.get(id=board_game_id)
     loans = board_game.loan_set.order_by('-date_added')
     context = {'board_game': board_game, 'loans': loans}
     return render(request, 'board_games/board_game.html', context)

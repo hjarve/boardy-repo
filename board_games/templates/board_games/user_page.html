@@ -1,0 +1,20 @@
+{% extends "board_games/base.html" %}
+
+{% block content %}
+
+    <h2>{{ user.username }}</h2>
+    
+    <h3>Your games:</h3>
+    <ul>
+        {% for game in users_board_games %}
+            <li>{{ game }}</li>
+        {% empty %}
+            <li>You haven't added any games yet!</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'board_games:new_board_game' %}">Add a new game</a>
+
+
+
+{% endblock content %}
