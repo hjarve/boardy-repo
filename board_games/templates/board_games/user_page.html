@@ -2,18 +2,35 @@
 
 {% block content %}
 
-    <h2>{{ user.username }}</h2>
+    <h2>Your dashboard</h2>
+    <p>Here you can view all games you have added to Boardy, add more games or edit already added games, and view your borrowing history.</p>
     
     <h3>Your games:</h3>
     <ul>
         {% for game in users_board_games %}
-            <li>{{ game }}</li>
+            <li><a href="{% url 'board_games:board_game' game.id %}">{{ game }}</a> (<a href="{% url 'board_games:edit_board_game' game.id %}">Edit</a>)</li>
         {% empty %}
             <li>You haven't added any games yet!</li>
         {% endfor %}
     </ul>
 
     <a href="{% url 'board_games:new_board_game' %}">Add a new game</a>
+
+    <h3>Your borrowing history:</h3>
+    <ul>
+        {% for loan in users_loans %}
+            <li>Borrowed {{ loan.board_game }} from {{ loan.board_game.owner }} on {{ loan.date_added | date:"F d, Y H:i" }}. 
+            {% if loan.borrow %}
+                <a href="{% url 'board_games:edit_loan' loan.id %}">Return the game</a>
+            {% else %}
+                Returned on {{ loan.date_edited | date:"F d, Y H:i" }}.
+            {% endif %}
+            </li>
+        {% empty %}
+            <li>You haven't borrowed any games yet!</li>
+        {% endfor %}
+    </ul>
+
 
 
 

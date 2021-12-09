@@ -1,0 +1,15 @@
+{% extends "board_games/base.html" %}
+
+{% block content %}
+
+    <h2>Want to return this game?</h2>
+
+    <p>Just uncheck the box!</p>
+
+    <form action="{% url 'board_games:edit_loan' loan.id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">Save changes</button>
+    </form>
+
+{% endblock content %}

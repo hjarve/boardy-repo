@@ -16,5 +16,9 @@ urlpatterns = [
     # Page for edting a board game
     path('edit_board_game/<int:board_game_id>/', views.edit_board_game, name='edit_board_game'),
     # User's own page, shows users board games
-    path('user_page/', views.user_page, name = 'user_page')
+    path('user_page/', views.user_page, name = 'user_page'),
+    # Page for borrowing a game
+    path('borrow_game/<int:board_game_id>/', views.borrow_game, name='borrow_game'),
+    # Edit a loan (return a game)
+    path('edit_loan/<int:loan_id>/', views.edit_loan, name='edit_loan'),
 ]
