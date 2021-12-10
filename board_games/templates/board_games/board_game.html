@@ -9,9 +9,9 @@
         <li>Date added: {{ board_game.date_added|date:"F d, Y H:i" }}</li>
         <li>{{ board_game.description|linebreaks }} </li>
         {% if loaned == "" %}
-        <li> This game is borrowed </li>
-        {% else %}
         <li><a href="{% url 'board_games:borrow_game' board_game.id %}">Borrow this game!</a></li>
+        {% else %}
+        <p> This game is borrowed </p>
         {% endif %}
         </p>
     </ul>
