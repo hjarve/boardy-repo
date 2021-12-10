@@ -33,6 +33,7 @@ def board_game(request, board_game_id):
     loans = board_game.loan_set.order_by('-date_added')
     context = {'board_game': board_game, 'loans': loans}
     return render(request, 'board_games/board_game.html', context)
+    #boolean value?
 
 @login_required
 def new_board_game(request):
