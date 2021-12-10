@@ -8,7 +8,12 @@
         <li>Owner: {{ board_game.owner }}</li>
         <li>Date added: {{ board_game.date_added|date:"F d, Y H:i" }}</li>
         <li>{{ board_game.description|linebreaks }} </li>
+        {% if loaned == "" %}
+        <li> This game is borrowed </li>
+        {% else %}
         <li><a href="{% url 'board_games:borrow_game' board_game.id %}">Borrow this game!</a></li>
+        {% endif %}
+        </p>
     </ul>
 
     <h3>Borrowing history:</h3>

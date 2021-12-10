@@ -30,8 +30,12 @@ def user_page(request):
 def board_game(request, board_game_id):
     """Show the details of a specific board game and who has borrowed it."""
     board_game = BoardGame.objects.get(id=board_game_id)
-    loans = board_game.loan_set.order_by('-date_added')
-    context = {'board_game': board_game, 'loans': loans}
+    loans = board_game.loan_set.all()
+    loaned = ""
+    for loan in loans:
+        if loan.borrow:
+            loaned = "This game is borrowed"
+    context = {'board_game': board_game, 'loans': loans, 'loaned': loaned}
     return render(request, 'board_games/board_game.html', context)
     #boolean value?
 
