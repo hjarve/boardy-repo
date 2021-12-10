@@ -5,7 +5,7 @@ class BoardGame(models.Model):
     """A board game the user can lend."""
     name = models.CharField(max_length = 200)
     description = models.TextField()
-    date_added = models.DateTimeField(auto_now_add = True)
+    date_added = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -19,7 +19,7 @@ class Loan(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(auto_now=True)
     borrower = models.ForeignKey(User, on_delete=models.CASCADE)
-    borrow = models.BooleanField()
+    borrow = models.BooleanField(default=False)
 
     def __str__(self):
         """Return a string presentation of the board game loan."""

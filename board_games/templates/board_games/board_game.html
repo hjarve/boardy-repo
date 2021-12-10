@@ -2,12 +2,23 @@
 
 {% block content %}
 
-    <h1>{{ board_game.owner }}'s {{ board_game }}</h1>
+    <h1>{{ board_game }}</h1>
 
-    {{ board_game.date_added }}
+    <ul>
+        <li>Owner: {{ board_game.owner }}</li>
+        <li>Date added: {{ board_game.date_added|date:"F d, Y H:i" }}</li>
+        <li>{{ board_game.description|linebreaks }} </li>
+        <li><a href="{% url 'board_games:borrow_game' board_game.id %}">Borrow this game!</a></li>
+    </ul>
 
-    <p>
-        <a href="{% url 'board_games:edit_board_game' board_game.id %}">Edit</a>
-    </p>
+    <h3>Borrowing history:</h3>
+    <ul>
+        {% for loan in loans %}
+            <li>{{ board_game }} was borrowed on {{ loan.date_added|date:"F d, Y H:i" }}</li>
+        {% empty %}
+            <li>Nobody has borrowed this game yet!</li>
+        {% endfor %}
+    </ul>
+
 
 {% endblock content %}

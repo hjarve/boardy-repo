@@ -2,6 +2,21 @@
 
 {% block content %}
 
-    <h3>Hello!</h3>
+    {% if user.is_authenticated %}
+        <h3>Hello, {{ user.username }}! Want to borrow one of these games today?</h3>
+    {% else %}
+        <h3>Welcome to Boardy!</h3>
+        <h4>Interested in borrowing some of these games? Create an account and you can!</h4>
+    {% endif %}
+
+    <ul>
+        {% for game in first_5 %}
+            <li>{{ game }}</li>
+        {% empty %}
+            <li>No games have been added yet!</li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{% url 'board_games:all_games' %}">See all the games available on Boardy!</a></p>
 
 {% endblock content %}
