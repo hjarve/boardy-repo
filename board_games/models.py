@@ -24,11 +24,3 @@ class Loan(models.Model):
     def __str__(self):
         """Return a string presentation of the board game loan."""
         return f"{self.board_game} was borrowed {self.date_added}."
-
-class Profile(models.Model):
-    """Viewing a user's profile information"""
-    user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
-    birthday = models.DateField(null=True, blank=True)
-    location = models.CharField(max_length=32, null=True, blank=True)
-    favourite_game = models.CharField(max_length=32, null=True, blank=True)
-    profile_description = models.TextField()
