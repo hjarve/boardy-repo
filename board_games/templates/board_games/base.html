@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 
@@ -6,31 +8,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Boardy - For all your board game borrowing needs!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" type="text/css" href="{% static 'board_games/style/style.css' %}">
 </head>
 
 <body>
     <header>
-        <h1><a href="{% url 'board_games:index' %}">Boardy</a></h1>
+        <h1><a href="{% url 'board_games:index' %}" class="logo">B<i class="fas fa-dice-one"></i>ardy</a></h1>
+        <div class="menu-toggle"></div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'board_games:all_games' %}">Games list</a>
+                    {% if user.is_authenticated %}
+                <li><a href="{% url 'board_games:user_page' %}">Your dashboard</a></li>
+                <li><a href="{% url 'users:logout' %}">Log out</a></li>
+                {% else %}
+                <li><a href="{% url 'users:register' %}">Register</a></li>
+                <li><a href="{% url 'users:login' %}">Log in</a></li>
+                {% endif %}
+                </li>
+            </ul>
+        </nav>
+        <div class="clearfix"></div>
     </header>
 
-    <nav>
-        <ul>
-            <li><a href="{% url 'board_games:all_games' %}">Games list</a>
-            {% if user.is_authenticated %}
-            <li><a href="{% url 'board_games:user_page' %}">Your profile</a></li>
-            <li><a href="{% url 'users:logout' %}">Log out</a></li>
-            {% else %}
-            <li><a href="{% url 'users:register' %}">Register</a></li>
-            <li><a href="{% url 'users:login' %}">Log in</a></li></li>
-            {% endif %}
-        </ul>
+    <div class="wrapper">{% block content %}{% endblock content %}</div>
+    
 
-    </nav>
-
-
-    {% block content %}{% endblock content %}
-    <script src="" async defer></script>
+    <script src="https://kit.fontawesome.com/e8f41676a5.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.menu-toggle').click(function () {
+                $('.menu-toggle').toggleClass('active')
+                $('nav').toggleClass('active')
+            })
+        })
+    </script>
 </body>
 
 </html>

@@ -2,26 +2,33 @@
 
 {% block content %}
 
-    <h1>{{ board_game }}</h1>
+    <p class="title"><i class="fas fa-dice"></i> {{ board_game }}</p>
 
-    <ul>
-        <li>Owner: {{ board_game.owner }}</li>
-        <li>Date added: {{ board_game.date_added|date:"F d, Y H:i" }}</li>
-        <li>{{ board_game.description|linebreaks }} </li>
-        {% if loaned == "" %}
-        <li><a href="{% url 'board_games:borrow_game' board_game.id %}">Borrow this game!</a></li>
-        {% else %}
-        <p> This game is borrowed </p>
-        {% endif %}
-        </p>
+    <ul class="gameDetail">
+        <li><strong>Owner:</strong>
+            {% if board_game.owner == user %}
+                This is your game!
+            {% else %}
+                {{ board_game.owner }}
+            {% endif %}</li>
+        <li><strong>Date added:</strong> {{ board_game.date_added|date:"F d, Y H:i" }}</li>
+        <li><strong>Description:</strong>
+            <ul><li>{{ board_game.description|linebreaks }}</li></ul></li>
     </ul>
+    <br>
+    {% if loaned == "" %}
+    <span class="tab"><a href="{% url 'board_games:borrow_game' board_game.id %}">Borrow this game</a> <i class="fas fa-arrow-right"></i></span>
+    {% else %}
+        <p>This game is currently borrowed.</p>
+    {% endif %}
+    <br>
 
-    <h3>Borrowing history:</h3>
-    <ul>
+    <p><h3>Borrowing history:</h3></p>
+    <ul class="history">
         {% for loan in loans %}
-            <li>{{ board_game }} was borrowed on {{ loan.date_added|date:"F d, Y H:i" }}</li>
+            <li>{{ board_game }} was borrowed on {{ loan.date_added|date:"F d, Y" }}.</li>
         {% empty %}
-            <li>Nobody has borrowed this game yet!</li>
+            Nobody has borrowed this game yet.
         {% endfor %}
     </ul>
 

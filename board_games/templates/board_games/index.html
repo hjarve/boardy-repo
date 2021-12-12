@@ -2,21 +2,26 @@
 
 {% block content %}
 
-    {% if user.is_authenticated %}
-        <h3>Hello, {{ user.username }}! Want to borrow one of these games today?</h3>
-    {% else %}
-        <h3>Welcome to Boardy!</h3>
-        <h4>Interested in borrowing some of these games? Create an account and you can!</h4>
-    {% endif %}
+    
 
-    <ul>
-        {% for game in first_5 %}
-            <li>{{ game }}</li>
-        {% empty %}
-            <li>No games have been added yet!</li>
-        {% endfor %}
-    </ul>
+        {% if user.is_authenticated %}
+            <p class="title">Hello, <span class="user">{{ user.username }}</span>!</p>
+            <p class="paragraph"><span class="tab">Want to borrow one of these games today?</span></p>
+        {% else %}
+            <p class="title">Welcome to Boardy!</p>
+            <p class="paragraph"><span class="tab">Interested in borrowing some of these games? <a href="{% url 'users:register' %}">Create an account and you can!</a></span></p>
+        {% endif %}
 
-    <p><a href="{% url 'board_games:all_games' %}">See all the games available on Boardy!</a></p>
+        <ul class="games">
+            {% for game in first_5 %}
+                <li><i class="fas fa-dice"></i>{{ game }}</li>
+            {% empty %}
+                No games have been added yet!
+            {% endfor %}
+        </ul>
+
+        <p><span class="tab"><a href="{% url 'board_games:all_games' %}">See all the games available on Boardy! <i class="fas fa-arrow-right"></i></a></span></p>
+
+
 
 {% endblock content %}

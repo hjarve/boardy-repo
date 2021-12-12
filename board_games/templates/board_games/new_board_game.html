@@ -2,12 +2,12 @@
 
 {% block content %}
 
-    <h2>Add a new game</h2>
+    <p class="title">Add a new game</p>
 
     <form action="{% url 'board_games:new_board_game' %}" method='post'> 
         {% csrf_token %}
         {{ form.as_p }}
-        <button name="submit">Add game</button>
+        <button class="btn" name="submit">Add game</button>
     </form>
 
 {% endblock content %}

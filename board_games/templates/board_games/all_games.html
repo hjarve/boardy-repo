@@ -2,15 +2,17 @@
 
 {% block content %}
 
-    <h2>All games on Boardy</h2>
+    <p class="title">All games on Boardy</p>
 
-    <ul>
+    <ul class="games">
         {% for game in games %}
-            <li><a href="{% url 'board_games:board_game' game.id %}">{{ game }}</a></li>
+            <li><i class="fas fa-dice"></i><a href="{% url 'board_games:board_game' game.id %}">{{ game }}</a></li>
         {% empty %}
             <li>No games have been added yet!</li>
         {% endfor %}
     </ul>
+
+    <p><span class="tab">You could expand this list by <a href="{% url 'board_games:new_board_game' %}">adding a new game.</a></span></p>
 
 
 {% endblock content %}
