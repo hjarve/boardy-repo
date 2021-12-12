@@ -12,6 +12,7 @@
                 {{ board_game.owner }}
             {% endif %}</li>
         <li><strong>Date added:</strong> {{ board_game.date_added|date:"F d, Y H:i" }}</li>
+        <li><strong>Last edited:</strong> {{ board_game.date_edited|date:"F d, Y H:i" }}</li>
         <li><strong>Description:</strong>
             <ul><li>{{ board_game.description|linebreaks }}</li></ul></li>
     </ul>
@@ -26,7 +27,7 @@
     <p><h3>Borrowing history:</h3></p>
     <ul class="history">
         {% for loan in loans %}
-            <li>{{ board_game }} was borrowed on {{ loan.date_added|date:"F d, Y" }}.</li>
+            <li>{{ board_game }} was borrowed on {{ loan.date_added|date:"F d, Y" }} by {{ loan.borrower }}.</li>
         {% empty %}
             Nobody has borrowed this game yet.
         {% endfor %}
